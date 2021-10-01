@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="1" parallel="tests" name="Failed suite [Trainline Demo Test Suite]">
+  <test parallel="tests" name="Ticket Booking(failed)">
+    <classes>
+      <class name="testRunner.TrainlineRunner">
+        <methods>
+          <include name="setup"/>
+          <include name="setUpClass"/>
+          <include name="tearDown"/>
+          <include name="feature" invocation-numbers="0"/>
+          <include name="tearDownClass"/>
+        </methods>
+      </class> <!-- testRunner.TrainlineRunner -->
+    </classes>
+  </test> <!-- Ticket Booking(failed) -->
+</suite> <!-- Failed suite [Trainline Demo Test Suite] -->
