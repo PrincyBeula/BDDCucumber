@@ -10,22 +10,35 @@ This project repository is created to test a ticket booking scenario in the Trai
 Tech Stacks:
 - - - - - 
 Framework Type – Behaviour Driven Framework
+
 Design Patten – Page Object Model
+
 Programming Language – Java
+
 Automation Tool – Selenium
+
 Testing Framework – TestNg
+
 Report – Cucumber Report
+
 Build Automation Tool - Maven
+
 Source Code Management - Git
+
 Logging - Log4j
 
 Configuration
 -------------
 To execute the script, please make sure the below softwares are installed and the respective paths are set in environment variables
+
 IDE - Eclipse/ Intellj
+
 Maven > 3.5 version
+
 JDK (1.8)
+
 Plugin : Cucumber and TestNG 
+
 
 How to Run:
 ----------
