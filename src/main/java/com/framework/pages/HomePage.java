@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -54,12 +55,17 @@ public class HomePage extends Reusables{
 	By cmb_ChildrenAge = By.xpath("//select[@aria-label='select child age']");
 	By btn_Done = By.xpath("//button[descendant::*[text()='Done']]");
 	By btn_Search = By.xpath("//button[@data-test='submit-journey-search-button']");
+	By link_Basket = By.xpath("//span[@data-testid='typography']");
 
 	public HomePage(WebDriver driver,PropertiesFileReader fileReader)
 	{
 		super(driver, fileReader);
+		waitForElement(btn_AcceptCookies);
 		if(isDisplayed(btn_AcceptCookies))
+		{
+			waitTillElementClickable(btn_AcceptCookies);
 			clickElement(btn_AcceptCookies, "Accept Cookies");
+		}
 		waitForElement(txtFrom);
 		
 		if(isDisplayed(txtFrom))
@@ -93,7 +99,9 @@ public class HomePage extends Reusables{
 			for(Map<String,String> journeyDetails: detailsTable.asMaps(String.class, String.class))
 			{
 				enterText(txtFrom, journeyDetails.get("From"),"From");
+				clickElement(txtTo, "To");
 				enterText(txtTo, journeyDetails.get("To"),"To");
+				enterText(txtTo, Keys.TAB, "To");
 				switch(journeyDetails.get("Type").toLowerCase())
 				{
 				case "one way":
@@ -129,11 +137,12 @@ public class HomePage extends Reusables{
 					for(WebElement cmbChildAge:ageSelector)
 					{
 						Select element = new Select(cmbChildAge);
-						element.deselectByVisibleText(age[i]);
+						element.selectByVisibleText(age[i]);
 						i++;
 					}
 				}
 				clickElement(btn_Done, "Done");
+				hardDelay(2000);
 				waitForElement(btn_Search);
 			}
 			
@@ -172,12 +181,18 @@ public class HomePage extends Reusables{
 				
 				assertEquals(actDate, expDate,"Tomorrow's date not set");
 			}
-			else
+			else {
+				enterText(txt_OutboundDate, "", "Journey Date");
+				enterTextJS(txt_OutboundDate, "", "Journey Date");
 				enterText(txt_OutboundDate, travelDate, "Journey Date");
+				enterText(txt_OutboundDate, Keys.ENTER, "Journey Date");
+				hardDelay(2000);
+			}
 			comboSelectByVisibleText(cmb_OutDateType, type, "Leaving or Arriving");
 			String[] time = travelTime.split(":");
 			comboSelectByValue(cmb_OutHours, time[0], "Hours");
 			comboSelectByValue(cmb_OutMinutes, time[1], "Minutes");
+			
 			
 		}catch(Exception e)
 		{
@@ -212,13 +227,15 @@ public class HomePage extends Reusables{
 				
 				assertEquals(actDate, expDate,"Next Day's date not set");
 			}
-			else
+			else {
 				enterText(txt_InboundDate, returnDate, "Return Journey Date");
+				enterText(txt_InboundDate, Keys.TAB, "Journey Date");
+			}
 			
-			comboSelectByVisibleText(cmb_OutDateType, type, "Leaving or Arriving");
+			comboSelectByVisibleText(cmb_ReturnDateType, type, "Leaving or Arriving");
 			String[] time = travelTime.split(":");
-			comboSelectByValue(cmb_OutHours, time[0], "Hours");
-			comboSelectByValue(cmb_OutMinutes, time[1], "Minutes");
+			comboSelectByValue(cmb_ReturnHours, time[0], "Hours");
+			comboSelectByValue(cmb_ReturnMinutes, time[1], "Minutes");
 			
 		}catch(Exception e)
 		{
@@ -241,5 +258,23 @@ public class HomePage extends Reusables{
 			Helper.handleTestFaliure(e, this.getClass().getSimpleName());
 		}
 	}
+	
+	public void clickBasket()
+	{
+		try
+		{
+			waitForElement(link_Basket);
+			if(isDisplayed(link_Basket)) {
+				clickElement(link_Basket, "Basket");
+				hardDelay(2000);
+			}
+			else
+				throw new Exception("Basket link not found");
+		}catch(Exception e)
+		{
+			Helper.handleTestFaliure(e, this.getClass().getSimpleName());
+		}
+	}
+	
 	
 }

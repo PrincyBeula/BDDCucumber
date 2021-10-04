@@ -65,4 +65,14 @@ public class BookFlightSteps extends SourceTest{
 	   String coachInfo = initPage.paymentPage().getReservationDetails();
 	   getScenario().write("Reserved Coach Details: "+coachInfo);
 	}
+	
+	@When("^user click on Basket link$")
+	public void user_click_on_Basket_link() throws Throwable {
+	   initPage.homePage().clickBasket();
+	}
+
+	@Then("^user should be able to remove the existing tickets$")
+	public void Remove_existing_tickets() throws Throwable {
+	   initPage.paymentPage().clearBasket();
+	}
 }

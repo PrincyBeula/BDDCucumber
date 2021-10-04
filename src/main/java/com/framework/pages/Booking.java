@@ -29,6 +29,8 @@ public class Booking extends Reusables{
 	By rad_KioskTicket = By.xpath("//input[@data-test='kioskRadioButton']");
 	By rad_eTicket = By.xpath("//input[@data-test='eTicketRadioButton']");
 	String cb_preference = "//input[contains(@id,'facilities') and following-sibling::*[text()='%s']]";
+	By rad_reserveSeatYes = By.xpath("//input[@id='seatResOutwardYes']/following-sibling::div");
+	By rad_reserveSeatNo = By.xpath("//input[@id='seatResOutwardNo']/following-sibling::div");
 
 	public Booking(WebDriver driver, PropertiesFileReader fileReader) {
 		super(driver, fileReader);
@@ -49,7 +51,7 @@ public class Booking extends Reusables{
 			assertEquals(getText(txt_JourneyType, "JourneyType"), journey.get("Type")+" journey");
 			assertEquals(getText(txt_adults, "Adults"), journey.get("Adult")+" Adult");
 			if(Integer.parseInt(journey.get("Children"))>0)
-				assertEquals(getText(txt_children, "Children"), journey.get("Children")+" Children");
+				assertEquals(getText(txt_children, "Children"), journey.get("Children")+" Child");
 		}
 	}
 	
@@ -57,6 +59,14 @@ public class Booking extends Reusables{
 	{
 		for(Map<String, String> preferences:detailsTable.asMaps(String.class, String.class))
 		{
+			if(preferences.containsKey("ReserveSeat"))
+			{
+				waitForElement(rad_reserveSeatYes);
+				if(preferences.get("ReserveSeat").equalsIgnoreCase("Yes"))
+					clickElement(rad_reserveSeatYes, "Reserve Seat - Yes");
+				else if(preferences.get("ReserveSeat").equalsIgnoreCase("No"))
+					clickElement(rad_reserveSeatNo, "Reserve Seat - No");		
+			}
 			By pref = By.xpath(String.format(cb_preference, preferences.get("Preferences")));
 			waitForElement(pref);
 			comboSelectByValue(cmb_Direction, preferences.get("Direction"), "Directions");

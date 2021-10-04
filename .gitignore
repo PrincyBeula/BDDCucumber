@@ -1,0 +1,4 @@
+*.txt
+/target/*
+*.logs
+/test-outpt/*

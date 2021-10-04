@@ -1,15 +1,13 @@
 package com.framework.core;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -188,6 +186,28 @@ protected boolean isEnabled(By field, String desc) {
 		LogGenerator.info(desc + " is disabled");
 	}
 	return flag;
+}
+
+protected void enterText(By field, Keys keys, String desc) {
+	WebElement element = driver.findElement(field);
+	element.sendKeys(keys);
+	LogGenerator.info(keys.toString() + " is performed in keyboard");
+}
+
+protected void enterTextJS(By field, String value, String desc) {
+	WebElement element = driver.findElement(field);
+	js.executeScript("arguments[0].value='"+value+"';", element);
+	LogGenerator.info(value + " is entered in "+desc +" field");
+}
+
+
+public void waitTillElementInvisible(By field) {
+	try {
+		WebDriverWait wait = new WebDriverWait(driver, 120);
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(field));
+	} catch (Exception e) {
+		LogGenerator.info(field + " element is visible");
+	}
 }
 	
 }
