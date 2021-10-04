@@ -1,4 +1,4 @@
 *.txt
 /target/*
 *.logs
-/test-outpt/*
+/test-output/*
